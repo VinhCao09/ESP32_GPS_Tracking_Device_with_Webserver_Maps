@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS Tracking</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css"></link>
+    <style>
+        #map { height: 500px; }
+        .btn { margin-bottom: 10px; }
+        .card-body { padding: 1rem; }
+        .form-select { margin-top: 1rem; }
+        .footer { 
+            background-color: #f8f9fa; 
+            padding: 10px; 
+            text-align: center; 
+            border-top: 1px solid #dee2e6; 
+        }
+        .navbar-brand img { 
+            height: 40px; 
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="https://vinhcaodatabase.com/images/aboutme.jpg" alt="Logo"> Website định vị xe
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Dashboard<i class="fa-solid fa-bars-progress"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa-brands fa-facebook"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa-brands fa-github"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <p>Author: Cao Văn Vinh - Trường ĐH Sư phạm Kỹ thuật TpHCM</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Last Data Received</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 30%;">Date:</td>
+                                    <td><span id="time_date"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Time:</td>
+                                    <td><span id="time_time"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Latitude:</td>
+                                    <td><span id="latitude"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Longitude:</td>
+                                    <td><span id="longitude"></span></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" id="safety-status" class="text-danger"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-grid gap-2 mt-3">
+                            <button id="createSafetyZoneButton" class="btn btn-info">Create Safety Zone</button>
+                            <button id="startPolylineButton" class="btn btn-success">Start Tracking</button>
+                            <button id="resetButton" class="btn btn-secondary" style="display: none;">Reset</button>
+                            <tr>
+                                <td>Chọn kiểu bản đồ:</td>
+                            </tr>
+                            <select id="mapTypeSelect" class="form-select">
+                                <option value="streets">Streets</option>
+                                <option value="satellite">Satellite</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div id="map"></div>
+            </div>
+     
+        </div>
+    </div>
+    <br>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Vinh Cao. All rights reserved.</p>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script>
+        var map = L.map('map').setView([0, 0], 15);
+
+        var blueIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        var redIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        var greenIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        var orangeIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        var initialMarker = L.marker([0, 0], {icon: redIcon});
+        var updatedMarker = L.marker([0, 0], {icon: blueIcon});
+        var finishMarker = L.marker([0, 0], {icon: greenIcon}); 
+        var polyline = L.polyline([], { color: 'blue' });
+        var startPolylineButton = document.getElementById('startPolylineButton');
+        var resetButton = document.getElementById('resetButton');
+        var createSafetyZoneButton = document.getElementById('createSafetyZoneButton');
+        var isPolylineStarted = false;
+        var locationData = [];
+        var currentIndex = 0;
+        var polylineIndex = 0;
+        var stat_btn = 0;
+        var safetyCircle = null;
+        var drawingSafetyZone = false;
+
+        var streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        });
+
+        var satelliteLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenTopoMap'
+        });
+
+        streetLayer.addTo(map);
+
+        document.getElementById('mapTypeSelect').addEventListener('change', function() {
+            var selectedMapType = this.value;
+            if (selectedMapType === 'streets') {
+                map.removeLayer(satelliteLayer);
+                streetLayer.addTo(map);
+            } else if (selectedMapType === 'satellite') {
+                map.removeLayer(streetLayer);
+                satelliteLayer.addTo(map);
+            }
+        });
+
+        var circleCenter = null;
+        var safetyCircle = null;
+
+        createSafetyZoneButton.addEventListener('click', function () {
+            if (!drawingSafetyZone) {
+                createSafetyZoneButton.textContent = 'Click on map to set safety radius';
+                createSafetyZoneButton.classList.remove('btn-info');
+                createSafetyZoneButton.classList.add('btn-danger');
+                drawingSafetyZone = true;
+                map.on('click', onSafetyZoneClick);
+            } else {
+                map.off('click', onSafetyZoneClick);
+                createSafetyZoneButton.textContent = 'Create Safety Zone';
+                createSafetyZoneButton.classList.remove('btn-danger');
+                createSafetyZoneButton.classList.add('btn-info');
+                drawingSafetyZone = false;
+                circleCenter = null;
+            }
+        });
+
+        function onSafetyZoneClick(e) {
+            if (!circleCenter) {
+                circleCenter = e.latlng;
+                safetyCircle = L.circle(circleCenter, { radius: 100, color: 'red', fillOpacity: 0.2 }).addTo(map);
+                document.getElementById('safety-status').textContent = 'Click to set radius of safety zone';
+                map.off('click', onSafetyZoneClick);
+                map.on('click', onRadiusClick);
+            } else {
+                var radius = map.distance(circleCenter, e.latlng);
+                safetyCircle.setRadius(radius);
+                document.getElementById('safety-status').textContent = 'Safety Zone Created';
+                map.off('click', onRadiusClick);
+                createSafetyZoneButton.textContent = 'Create Safety Zone';
+                createSafetyZoneButton.classList.remove('btn-danger');
+                createSafetyZoneButton.classList.add('btn-info');
+                drawingSafetyZone = false;
+                circleCenter = null;
+            }
+        }
+
+        function onRadiusClick(e) {
+            var radius = map.distance(circleCenter, e.latlng);
+            safetyCircle.setRadius(radius);
+            document.getElementById('safety-status').textContent = 'Safety Zone Created';
+            map.off('click', onRadiusClick);
+            createSafetyZoneButton.textContent = 'Create Safety Zone';
+            createSafetyZoneButton.classList.remove('btn-danger');
+            createSafetyZoneButton.classList.add('btn-info');
+            drawingSafetyZone = false;
+            circleCenter = null;
+        }
+
+        function updateMap(data) {
+            var latitude = parseFloat(data.field1);
+            var longitude = parseFloat(data.field2);
+            var timestamp = data.created_at;
+
+            var date_ = timestamp.split('T'), 
+                date_now = date_[0], time_z = date_[1];
+            var time_ = time_z.split('+'), time_now = time_[0];
+
+            document.getElementById('latitude').textContent = latitude.toFixed(6);
+            document.getElementById('longitude').textContent = longitude.toFixed(6);
+            document.getElementById('time_date').textContent = date_now;
+            document.getElementById('time_time').textContent = time_now;
+
+            var isInSafetyZone = safetyCircle ? map.distance(L.latLng(latitude, longitude), safetyCircle.getLatLng()) <= safetyCircle.getRadius() : true;
+            document.getElementById('safety-status').textContent = isInSafetyZone ? 'Xe của bạn đang trong vùng an toàn' : 'Xe của bạn đã ra khỏi vùng an toàn';
+
+            updateMarker(latitude, longitude, date_now, time_now);
+            if (stat_btn == 1) {
+                polyline.addLatLng([latitude, longitude]);
+                polyline.addTo(map);
+            }
+
+            map.panTo([latitude, longitude]);
+        }
+
+        function updateMarker(latitude, longitude, date_now, time_now) {
+            var customPopup = "<b>Stored Data<br>" + date_now + " " + time_now + "</b><br><b>Latitude: </b>" + latitude.toFixed(6) + "<br><b>Longitude: </b>" + longitude.toFixed(6);
+            var marker;
+
+            if (stat_btn == 0) {
+                marker = initialMarker.addTo(map);
+            }
+            if (stat_btn == 1) {
+                marker = updatedMarker.addTo(map);
+            }
+            if (stat_btn == 2) {
+                marker = finishMarker.addTo(map);
+            }
+            marker.setLatLng([latitude, longitude]).update();
+            marker.bindPopup(customPopup).addTo(map);
+            map.setView([latitude, longitude], map.getZoom());
+        }
+
+        function updatePolyline(data) {
+            var coordinates = data.map(location => [location.lat, location.lng]);
+            polyline.setLatLngs(coordinates);
+            map.addLayer(polyline);
+        }
+
+        function startPolyline() {
+            stat_btn++;
+            if (stat_btn == 1) {
+                startPolylineButton.classList.remove('btn-success');
+                startPolylineButton.classList.add('btn-danger');
+                startPolylineButton.textContent = 'Stop Tracking';
+                resetButton.style.display = 'block';
+            }
+            if (stat_btn == 2) {
+                startPolylineButton.disabled = true;
+                startPolylineButton.classList.remove('btn-danger');
+                startPolylineButton.classList.add('btn-success');
+            }
+            console.log('Button Status:', stat_btn);
+        }
+
+        function resetMap() {
+            stat_btn = 0;
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.Marker || layer instanceof L.Polyline || layer instanceof L.Circle) {
+                    map.removeLayer(layer);
+                }
+            });
+            startPolylineButton.disabled = false;
+            document.getElementById('latitude').textContent = "";
+            document.getElementById('longitude').textContent = "";
+            document.getElementById('time_date').textContent = "";
+            document.getElementById('time_time').textContent = "";
+            document.getElementById('safety-status').textContent = "";
+            initialMarker = L.marker([0, 0], {icon: redIcon});
+            updatedMarker = L.marker([0, 0], {icon: blueIcon});
+            finishMarker = L.marker([0, 0], {icon: greenIcon});
+            polyline = L.polyline([], { color: 'blue' });
+            safetyCircle = null; // Clear safety circle
+            resetButton.style.display = 'none';
+            fetchData();
+        }
+
+        function fetchData() {
+            fetch('https://api.thingspeak.com/channels/2543450/feeds/last.json?api_key=5Q7YJ6AA78FTRNK9')
+                .then(response => response.json())
+                .then(data => {
+                    updateMap(data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        setInterval(fetchData, 5000);
+        fetchData();
+        startPolylineButton.addEventListener('click', startPolyline);
+        resetButton.addEventListener('click', resetMap);
+    </script>
+</body>
+</html>
