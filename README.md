@@ -28,6 +28,15 @@ Create a GPS tracking device for motorbikes using an ESP32, and build a manageme
 Nguyên lý là sử dụng tia hồng ngoại (IR, infrared). Hồng ngoại là bức xạ điện từ có bước sóng dài hơn ánh sáng khả kiến nhưng ngắn hơn sóng vô tuyến (khoảng từ 760nm đến 1mm). Bước sóng này nằm ngoài khả năng nhìn thấy của con người nên với mắt thường bạn không thể nhìn thấy được. Các hãng điện tử thì hầu hết tất cả các tín hiệu hồng ngoại để điều khiển dùng ở các Remote thì đều sử dụng sóng 38Khz, với thạch anh 455Khz. Về chuẩn điều chế và mã hóa code điều khiển thì có khá nhiều, mỗi nhà sản xuất đều có một chuẩn riêng cho mình như chuẩn NEC, RC5, RC6, Sony,... ,đây chính là điểm phân biệt giữa các nhà sản xuất và giữa các thiết bị với nhau, chứ không phải là mạch chọn tần.
 
 ## How to use
+*Connect*
+
+Pin Neo 6M | Pin ESP32 | 
+--- | --- |
+VCC | Vin (5V) |
+GND | GND |
+TX | GPIO16 (RX) |
+RX | GPIO17 (TX) |
+
 
 ✔️Please read the code to connect the button pins.
 
@@ -41,15 +50,7 @@ Joystick: 5V from Arduino Nano Pin
 
 Ở đoạn code có 2 code test, một code test để kết nối với mắt thu hồng ngoại. Mục đích là sử dụng code này để thử nghiệm lấy mã hồng ngoại. Ở đây mình sử dụng điều khiển Tivi nhà mình và thử một số nút, mã hồng ngoại đọc vào được là dạng mã hóa Sony 12 bit. Kết quả được liệt kê như sau:
 
-Button |Code | 
---- | --- |
-Power Toggle | 0xA90 |
-Vol + | 0x490 |
-Vol - | 0xC90 |
-Up | 0x2F0 |
-Down | 0xAF0 |
-Left| 0x2D0 |
-Enter | 0xA70 |
+
 
 Ngoài ra, các bạn có thể xem mã tại đây, mình thấy nó khá chính xác: https://tasmota.github.io/docs/Codes-for-IR-Remotes/#sony-kdl-ex540-tv
 
