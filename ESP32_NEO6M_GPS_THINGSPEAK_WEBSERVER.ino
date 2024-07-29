@@ -13,8 +13,8 @@ char pass[] = "12356789";
 // int keyIndex = 0;            // your network key Index number (needed only for WEP)
 WiFiClient  client;
 
-unsigned long myChannelNumber = 2543450;
-const char * myWriteAPIKey = "WW2QG9CRI57KMB2U";
+unsigned long myChannelNumber = YourChannelNumber;
+const char * myWriteAPIKey = "YourAPIKey";
 unsigned long previousMillis_ts = 0;  
 const long ts_update_interval = 20000;  //update data evert 20s
 
