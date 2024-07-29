@@ -5,8 +5,8 @@ Create a GPS tracking device for motorbikes using an ESP32, and build a manageme
 
 ### Nếu bạn cần hỗ trợ đề tài này, đừng ngần ngại liên hệ mình. Mình là người tiên phong làm sản phẩm này tại Việt Nam và cũng như trên thế giới. Trên internet rất ít tài liệu liên quan tới dự án này!!!
 
-![images](https://github.com/VinhCao09/Making_a_RemoteTVSony/blob/main/images/1.jpg)
-
+![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/1.jpg)
+![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/4.jpg)
 ## Components
 - ESP32-DevKitC
 - GPS NEO-6MV2 (UART)
