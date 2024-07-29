@@ -24,8 +24,8 @@ Create a GPS tracking device for motorbikes using an ESP32, and build a manageme
 - TinyGPSPlus by Mikal Hart - `1.0.3`
 
 
-## Giải thích về remote hồng ngoại
-Nguyên lý là sử dụng tia hồng ngoại (IR, infrared). Hồng ngoại là bức xạ điện từ có bước sóng dài hơn ánh sáng khả kiến nhưng ngắn hơn sóng vô tuyến (khoảng từ 760nm đến 1mm). Bước sóng này nằm ngoài khả năng nhìn thấy của con người nên với mắt thường bạn không thể nhìn thấy được. Các hãng điện tử thì hầu hết tất cả các tín hiệu hồng ngoại để điều khiển dùng ở các Remote thì đều sử dụng sóng 38Khz, với thạch anh 455Khz. Về chuẩn điều chế và mã hóa code điều khiển thì có khá nhiều, mỗi nhà sản xuất đều có một chuẩn riêng cho mình như chuẩn NEC, RC5, RC6, Sony,... ,đây chính là điểm phân biệt giữa các nhà sản xuất và giữa các thiết bị với nhau, chứ không phải là mạch chọn tần.
+## Working principle
+![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/2.jpg)
 
 ## How to use
 *Connect*
@@ -37,16 +37,10 @@ GND | GND |
 TX | GPIO16 (RX) |
 RX | GPIO17 (TX) |
 
-
 ✔️Please read the code to connect the button pins.
 
-![images](https://github.com/VinhCao09/Making_a_RemoteTVSony/blob/main/images/3.jpg)
+![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/3.jpg)
 
-Power Supply: 9V Battery
-
-Button: Use internal pull-up resistor
-
-Joystick: 5V from Arduino Nano Pin
 
 Ở đoạn code có 2 code test, một code test để kết nối với mắt thu hồng ngoại. Mục đích là sử dụng code này để thử nghiệm lấy mã hồng ngoại. Ở đây mình sử dụng điều khiển Tivi nhà mình và thử một số nút, mã hồng ngoại đọc vào được là dạng mã hóa Sony 12 bit. Kết quả được liệt kê như sau:
 
