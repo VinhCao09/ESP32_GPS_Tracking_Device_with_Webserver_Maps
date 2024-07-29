@@ -37,6 +37,20 @@ GND | GND |
 TX | GPIO16 (RX) |
 RX | GPIO17 (TX) |
 
+Change the wifi configuration
+
+```bash
+char ssid[] = "VC Analog 2"; 
+char pass[] = "12356789";  
+```
+
+Change the ThingSpeak configuration
+
+```bash
+unsigned long myChannelNumber = 2543450;
+const char * myWriteAPIKey = "WW2QG9CRI57KMB2U";
+```
+
 ✔️Please read the code to connect the button pins.
 
 ![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/3.jpg)
