@@ -8,8 +8,8 @@ TinyGPSPlus gps;  // the TinyGPS++ object
 String lat_data, lng_data;
 // #define GPS_BAUDRATE 9600 
 
-char ssid[] = "VC Analog 2"; 
-char pass[] = "12356789";  
+char ssid[] = "YOUR_SSID"; 
+char pass[] = "YOUR_PASSWORD";  
 // int keyIndex = 0;            // your network key Index number (needed only for WEP)
 WiFiClient  client;
 
