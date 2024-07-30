@@ -11,6 +11,12 @@ Create a GPS tracking device for motorbikes using an ESP32, and build a manageme
 - ESP32-DevKitC
 - GPS NEO-6MV2 (UART)
 
+## ⚛️Software - Programming language & Framework
+- Programming for microcontroller: Arduino IDE (`2.3.2`)
+- Server: Javascript
+- Website: HTML5, CSS, Bootstrap 5
+- Leafletjs
+  
 ## Version Recommend
 *Version Arduino IDE:*
 `2.3.2`
@@ -35,7 +41,6 @@ What a GPS receiver does is locate the four or more satellites and calculate the
 
 Once you have information about the distance between you and the three satellites, the GPS receiver can use a method called trilateration to determine your position. It is easy to understand this for the people who have learned math.
 ![images](https://www.eelinktracker.com/Images/attached/image/20190717/20190717150542_14537.png)
-
 
 ## The working Principle
 ![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/2.jpg)
@@ -85,6 +90,8 @@ UART2 | 17 | 16 |
 
 ![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/3.jpg)
 
+## ⬆️Deloy
+https://vinhcaodatabase.com/gpstracking.html
 
 ## 🚀 About Me
 Hello 👋I am Vinh. I'm studying HCMC University of Technology and Education
