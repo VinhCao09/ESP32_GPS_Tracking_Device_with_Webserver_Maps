@@ -23,8 +23,21 @@ Create a GPS tracking device for motorbikes using an ESP32, and build a manageme
 
 - TinyGPSPlus by Mikal Hart - `1.0.3`
 
+## The working Principle of the GPS
 
-## Working principle
+The system of GPS consists of three main parts, including the GPS satellites, the control system, and the control system.
+
+The satellites have covered virtually every corner of the earth.No matter where you are,at least four GPS satellites can be visible at any time.
+
+Everyone regularly transmits information about their location and real-time. These signals that are traveling at the speed of light are intercepted by the GPS receiver, and the GPS receiver calculates the distance of each satellite from us based on the length of time the information arrives.
+
+What a GPS receiver does is locate the four or more satellites and calculate the distance between each one of them. Using this information the GPS tracking system in our car or other devices finds out its current location. The information is presented as maps, latitude And longitude specification, etc.
+
+Once you have information about the distance between you and the three satellites, the GPS receiver can use a method called trilateration to determine your position. It is easy to understand this for the people who have learned math.
+![images](https://www.eelinktracker.com/Images/attached/image/20190717/20190717150542_14537.png)
+
+
+## The working Principle
 ![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/2.jpg)
 
 ## How to use
@@ -40,22 +53,38 @@ RX | GPIO17 (TX) |
 Change the wifi configuration
 
 ```bash
-char ssid[] = "VC Analog 2"; 
-char pass[] = "12356789";  
+char ssid[] = "YOUR_SSID"; 
+char pass[] = "YOUR_PASSWORD";  
 ```
 
 Change the ThingSpeak configuration
 
 ```bash
+unsigned long myChannelNumber = YourChannelNumber;
+const char * myWriteAPIKey = "YourAPIKey";
+```
+ex:
+```bash
 unsigned long myChannelNumber = 2543450;
 const char * myWriteAPIKey = "WW2QG9CRI57KMB2U";
 ```
+Change the UART Pin:
+```bash
+HardwareSerial GPSSerial(1);
+GPSSerial.begin(9600, SERIAL_8N1, 16, 17);
+```
+
+These are the default assignments for the ESP32:
+UART Port | TX | RX |
+--- | --- | --- |
+UART0 | 1 | 3 |
+UART1 | 10 | 9 |
+UART2 | 17 | 16 |
 
 ✔️Please read the code to connect the button pins.
 
 ![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/3.jpg)
 
-![images](https://github.com/VinhCao09/Making_a_RemoteTVSony/blob/main/images/4.jpg)
 
 ## 🚀 About Me
 Hello 👋I am Vinh. I'm studying HCMC University of Technology and Education
