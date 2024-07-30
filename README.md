@@ -3,7 +3,7 @@
 
 Create a GPS tracking device for motorbikes using an ESP32, and build a management website with a map
 
-### Nếu bạn cần hỗ trợ đề tài này, đừng ngần ngại liên hệ mình. Mình là người tiên phong làm sản phẩm này tại Việt Nam và cũng như trên thế giới. Trên internet rất ít tài liệu liên quan tới dự án này!!!
+### Nếu bạn cần hỗ trợ đề tài này, đừng ngần ngại liên hệ mình để được hỗ trợ.
 
 ![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/1.jpg)
 ![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/4.jpg)
