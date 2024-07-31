@@ -40,6 +40,7 @@ Everyone regularly transmits information about their location and real-time. The
 What a GPS receiver does is locate the four or more satellites and calculate the distance between each one of them. Using this information the GPS tracking system in our car or other devices finds out its current location. The information is presented as maps, latitude And longitude specification, etc.
 
 Once you have information about the distance between you and the three satellites, the GPS receiver can use a method called trilateration to determine your position. It is easy to understand this for the people who have learned math.
+
 ![images](https://www.eelinktracker.com/Images/attached/image/20190717/20190717150542_14537.png)
 
 ## The working Principle
