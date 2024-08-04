@@ -91,6 +91,19 @@ UART2 | 17 | 16 |
 
 ✔️Please read the code to connect the button pins.
 
+Change channel and api_key in javascript file. 
+
+```bash
+        function fetchData() {
+            fetch('https://api.thingspeak.com/channels/yourchannel/feeds/last.json?api_key=yourapikey')
+                .then(response => response.json())
+                .then(data => {
+                    updateMap(data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+```
+
 ![images](https://github.com/VinhCao09/ESP32_GPS_Tracking_Device_with_Webserver_Maps/blob/main/images/3.jpg)
 
 ## ⬆️Deloy
