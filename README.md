@@ -116,7 +116,7 @@ Hello 👋I am Vinh. I'm studying HCMC University of Technology and Education
 
 **Skill:** 
 
-*- Microcontroller:* ESP32/8266 - ARDUINO - PIC - Raspberry Pi - PLC Rockwell Allen Bradley
+*- Microcontroller:* ESP32/8266 - ARDUINO - PIC - Raspberry Pi
 
 *- Programming languages:* C/C++/HTML/CSS/PHP/SQL and
 related Frameworks (Bootstrap)
